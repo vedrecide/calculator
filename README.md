@@ -116,8 +116,8 @@ The evaluator will perform the mathematical operations and return the final resu
 Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/calculator-in-c.git
-cd calculator-in-c
+git clone https://github.com/vedrecide/calculator.git
+cd calculator
 ```
 
 Compile the project (adjust source files as implementation progresses):
