@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "lexer.h"
+#include "parser.h"
 
 
 int main(int argc, char *argv[]) {
@@ -20,12 +21,21 @@ int main(int argc, char *argv[]) {
             continue;
         }
 
-        for (int i = 0; i < count; i++) {
-            if (tokens[i].type == NUMBER)
-                printf("%s: %.2f\n", get_type_name(tokens[i].type), tokens[i].val);
-            else
-                printf("%s\n", get_type_name(tokens[i].type));
-        }
+        Parser p = {
+            .tokens = tokens,
+            .pos = 0
+        };
+
+        double result = parse_expression(&p);
+
+        // for (int i = 0; i < count; i++) {
+        //     if (tokens[i].type == NUMBER)
+        //         printf("%s: %.2f\n", get_type_name(tokens[i].type), tokens[i].val);
+        //     else
+        //         printf("%s\n", get_type_name(tokens[i].type));
+        // }
+
+        printf("%.4f\n", result);
     }
 
     return 0;

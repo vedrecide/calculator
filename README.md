@@ -56,8 +56,6 @@ calculator/
 ├── lexer.h
 ├── parser.c
 ├── parser.h
-├── evaluator.c
-├── evaluator.h
 │
 └── README.md
 ```
@@ -69,7 +67,6 @@ The project is being developed using a modular structure:
 | `main.c` | Command-line interface and user input |
 | `lexer.c` | Converts input expressions into tokens |
 | `parser.c` | Parses tokens and understands expression structure |
-| `evaluator.c` | Evaluates parsed mathematical expressions |
 
 ## How It Works
 
@@ -99,11 +96,7 @@ END
 
 **2. Parsing**
 
-The parser will process the token sequence using recursive descent parsing, taking operator precedence and parentheses into account.
-
-**3. Evaluation**
-
-The evaluator will perform the mathematical operations and return the final result.
+The parser will process the token sequence using recursive descent parsing, taking operator precedence and parentheses into account. It will then perform the mathematical operations and return the final result.
 
 ## Technologies
 
@@ -123,7 +116,7 @@ cd calculator
 Compile the project (adjust source files as implementation progresses):
 
 ```bash
-gcc main.c lexer.c -o calculator
+gcc main.c lexer.c parser.c -o calculator
 ```
 
 Run:
