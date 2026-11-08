@@ -5,6 +5,7 @@ typedef enum Type {
     NUMBER,
     LPAREN,
     RPAREN,
+    POWER,
     PLUS,
     MINUS,
     MULTIPLY,

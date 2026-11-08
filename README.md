@@ -19,7 +19,8 @@
 - **Interactive REPL** — Continuously evaluate mathematical expressions through a command-line interface.
 - **Custom Lexer** — Converts raw input into a sequence of tokens.
 - **Recursive Descent Parser** — Parses and evaluates expressions using a grammar-based approach.
-- **Operator Precedence** — Correctly handles multiplication and division before addition and subtraction.
+- **Operator Precedence** — Correctly handles exponentiation, multiplication, division, addition, and subtraction.
+- **Exponentiation** — Supports power operations using the `^` operator.
 - **Parentheses** — Supports grouped and nested mathematical expressions.
 - **Unary Operators** — Supports unary plus and minus, including consecutive unary operators.
 - **Floating-Point Arithmetic** — Handles integer and decimal numbers.
@@ -44,7 +45,7 @@ cd calculator
 Compile the source files:
 
 ```bash
-gcc -std=c11 -Wall -Wextra main.c lexer.c parser.c -o calculator
+gcc -std=c11 -Wall -Wextra main.c lexer.c parser.c -lm -o calculator
 ```
 
 ### Running
@@ -87,6 +88,15 @@ Enter mathematical expressions directly into the REPL.
 >> 5 * -3
 -15.0000
 
+>> 2 ^ 3
+8.0000
+
+>> 2 ^ 3 * 4
+32.0000
+
+>> (2 + 3) ^ 2
+25.0000
+
 >> exit
 Goodbye!
 ```
@@ -99,6 +109,7 @@ Goodbye!
 | `-` | Subtraction / Unary minus | `10 - 4`, `-5` |
 | `*` | Multiplication | `6 * 2` |
 | `/` | Division | `15 / 3` |
+| `^` | Exponentiation | `2 ^ 3` |
 | `()` | Parentheses | `(5 + 3) * 2` |
 
 ## ⚙️ How It Works
@@ -124,25 +135,29 @@ END
 
 ### 2. Recursive Descent Parsing
 
-The parser uses three functions to understand and evaluate expressions.
+The parser uses four functions to understand and evaluate expressions.
 
 | Function | Responsibility |
 |---|---|
 | `parse_expression()` | Handles addition and subtraction |
 | `parse_term()` | Handles multiplication and division |
+| `parse_exponents()` | Handles exponentiation |
 | `parse_factor()` | Handles numbers, parentheses, and unary operators |
 
 The parser follows this grammar:
 
 ```text
 expression → term (('+' | '-') term)*
-term       → factor (('*' | '/') factor)*
+term       → exponents (('*' | '/') exponents)*
+exponents  → factor ('^' factor)*
 factor     → NUMBER
            | '(' expression ')'
            | ('+' | '-') factor
 ```
 
 This grammar establishes operator precedence and supports recursive parsing of nested parentheses and unary operators.
+
+**Note:** Exponentiation is currently evaluated left-to-right.
 
 ## 📁 Project Structure
 
@@ -169,15 +184,17 @@ This project serves as a practical exploration of:
 - Context-Free Grammars
 - Operator Precedence and Associativity
 - Recursion
+- Mathematical Expression Evaluation
 - Dynamic Memory Allocation
 - Pointers and Structures
 - Modular Programming in C
 
 ## 🛠️ Future Improvements
 
-- [ ] Exponentiation and modulo operators
+- [ ] Right-associative exponentiation
 - [ ] Mathematical functions (`sqrt`, `sin`, `cos`)
 - [ ] Mathematical constants (`pi`, `e`)
+- [ ] Modulo operator
 - [ ] Division-by-zero handling
 - [ ] Improved syntax validation
 - [ ] Error recovery without terminating the REPL

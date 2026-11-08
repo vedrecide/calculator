@@ -34,6 +34,9 @@ Token* tokenize(char *exp, int *count) {
                 case ')':
                     tokens[len].type = RPAREN;
                     break;
+                case '^':
+                    tokens[len].type = POWER;
+                    break;
                 case '+':
                     tokens[len].type = PLUS;
                     break;
@@ -66,6 +69,7 @@ const char* get_type_name(Type type) {
         case NUMBER:   return "NUMBER";
         case LPAREN:   return "LPAREN";
         case RPAREN:   return "RPAREN";
+        case POWER:    return "POWER";
         case PLUS:     return "PLUS";
         case MINUS:    return "MINUS";
         case MULTIPLY: return "MULTIPLY";

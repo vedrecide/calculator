@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "parser.h"
 
@@ -33,20 +34,34 @@ double parse_expression(Parser *p) {
 }
 
 double parse_term(Parser *p) {
-    double left = parse_factor(p);
+    double left = parse_exponents(p);
 
     while (current_token(p).type == MULTIPLY || current_token(p).type == DIVIDE) {
 
         Token op = current_token(p);
         advance(p);
 
-        double right = parse_factor(p);
+        double right = parse_exponents(p);
 
         if (op.type == MULTIPLY) {
             left *= right;
         } else {
             left /= right;
         }
+    }
+
+    return left;
+}
+
+double parse_exponents(Parser *p) {
+    double left = parse_factor(p);
+
+    while (current_token(p).type == POWER) {
+        advance(p);
+
+        double right = parse_factor(p);
+
+        left = pow(left, right);
     }
 
     return left;
