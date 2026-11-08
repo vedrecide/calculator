@@ -73,6 +73,6 @@ double parse_factor(Parser *p) {
         return result;
     }
 
-    printf("Unexpected token type: %s\n", t.type);
+    printf("Unexpected token type: %s\n", get_type_name(t.type));
     exit(1);
 }
