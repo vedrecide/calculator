@@ -12,7 +12,10 @@ int main(int argc, char *argv[]) {
         printf(">> ");
         if (fgets(exp, sizeof(exp), stdin) == NULL) break; // handling EOF
 
-        if (strcmp(exp, "exit\n") == 0) break;
+        if (strcmp(exp, "exit\n") == 0) {
+            printf("Goodbye!\n");
+            break;
+        };
 
         Token *tokens = tokenize(exp, &count);
 

@@ -1,110 +1,37 @@
-# C Expression Calculator
+# 🧮 C Expression Calculator
 
-A command-line mathematical expression evaluator built from scratch in C. The project aims to implement a custom lexer and recursive descent parser to understand and evaluate mathematical expressions.
+<p align="center">
+  A lightweight mathematical expression evaluator built from scratch in C.
+  <br>
+  Featuring a custom lexer and a recursive descent parser.
+</p>
 
-Rather than relying on existing expression-evaluation libraries, this project explores the fundamentals of lexical analysis, parsing, operator precedence, and expression evaluation.
+<p align="center">
+  <img src="https://img.shields.io/badge/Language-C-A8B9CC?style=for-the-badge&logo=c&logoColor=white" alt="Language: C">
+  <img src="https://img.shields.io/badge/Compiler-GCC-00599C?style=for-the-badge&logo=gnu&logoColor=white" alt="Compiler: GCC">
+  <img src="https://img.shields.io/badge/Status-In_Development-orange?style=for-the-badge" alt="Status: In Development">
+</p>
 
-## Features
+---
 
-### Implemented
-- [x] Command-line input interface
-- [x] Token representation using C structures and enums
-- [x] Lexical analysis (tokenization)
-- [x] Recognition of arithmetic operators
-- [x] Recognition of parentheses
-- [x] Integer and floating-point number parsing
-- [x] Whitespace handling
-- [x] Invalid character detection
+## ✨ Features
 
-### Planned
-- [ ] Recursive descent parser
-- [ ] Operator precedence and associativity
-- [ ] Parenthesized expression evaluation
-- [ ] Basic arithmetic operations
-- [ ] Exponentiation and modulo
-- [ ] Mathematical functions (`sqrt`, `sin`, `cos`, etc.)
-- [ ] Mathematical constants (`pi`, `e`)
-- [ ] Improved error handling
+- **Interactive REPL** — Continuously evaluate expressions through a command-line interface.
+- **Custom Lexer** — Converts raw input into a sequence of tokens.
+- **Recursive Descent Parser** — Parses and evaluates expressions using a grammar-based approach.
+- **Operator Precedence** — Correctly handles multiplication and division before addition and subtraction.
+- **Parentheses** — Supports grouped and nested mathematical expressions.
+- **Floating-Point Arithmetic** — Handles both integer and decimal numbers.
+- **Syntax Error Detection** — Identifies invalid characters and unexpected tokens.
 
-## Example
+## 🚀 Getting Started
 
-The intended calculator interface:
+### Prerequisites
 
-```text
->> 5 + 3 * 2
-11
+- GCC compiler
+- A terminal or command prompt
 
->> (10 + 5) / 3
-5
-
->> 2 ^ 3 + 4
-12
-
->> exit
-Goodbye!
-```
-
-*Note: Expression evaluation is still under development. The examples above demonstrate the intended functionality.*
-
-## Project Structure
-
-```text
-calculator/
-│
-├── main.c
-├── lexer.c
-├── lexer.h
-├── parser.c
-├── parser.h
-│
-└── README.md
-```
-
-The project is being developed using a modular structure:
-
-| Component | Responsibility |
-|---|---|
-| `main.c` | Command-line interface and user input |
-| `lexer.c` | Converts input expressions into tokens |
-| `parser.c` | Parses tokens and understands expression structure |
-
-## How It Works
-
-The calculator is designed around three main stages:
-
-**1. Lexical Analysis**
-
-The lexer scans the input expression and converts it into individual tokens.
-
-For example:
-
-```text
-Input:  12 + 5 * (3 - 2)
-
-Tokens:
-NUMBER(12)
-PLUS
-NUMBER(5)
-MULTIPLY
-LPAREN
-NUMBER(3)
-MINUS
-NUMBER(2)
-RPAREN
-END
-```
-
-**2. Parsing**
-
-The parser will process the token sequence using recursive descent parsing, taking operator precedence and parentheses into account. It will then perform the mathematical operations and return the final result.
-
-## Technologies
-
-- **Language:** C
-- **Standard Libraries:** `stdio.h`, `stdlib.h`, `string.h`, `ctype.h`, `math.h`
-- **Build Tools:** GCC / MinGW
-
-## Building and Running
+### Compilation
 
 Clone the repository:
 
@@ -113,40 +40,139 @@ git clone https://github.com/vedrecide/calculator.git
 cd calculator
 ```
 
-Compile the project (adjust source files as implementation progresses):
+Compile the source files:
 
 ```bash
-gcc main.c lexer.c parser.c -o calculator
+gcc -std=c11 -Wall -Wextra main.c lexer.c parser.c -o calculator
 ```
 
-Run:
+### Running
 
-```bash
-./calculator
-```
-
-On Windows:
+**Windows:**
 
 ```bash
 calculator.exe
 ```
 
-## Learning Objectives
+**Linux / macOS:**
 
-This project is also an exploration of fundamental computer science concepts through C:
+```bash
+./calculator
+```
 
-- String manipulation and pointer arithmetic
-- Dynamic memory allocation
-- Structures, enums, and modular programming
-- Lexical analysis and tokenization
-- Recursive descent parsing
-- Operator precedence and associativity
-- Memory management and error handling
+## 💻 Usage
 
-## Development Status
+Enter mathematical expressions directly into the REPL.
 
-<sub>Currently under development 🚧</sub>
+```text
+>> 5 + 3 * 2
+11.0000
 
-The lexer is being implemented and tested. Parser and evaluator components are planned next.
+>> (5 + 3) * 2
+16.0000
+
+>> 10 / 2 + 3.5
+8.5000
+
+>> 100 - (20 + 5) * 2
+50.0000
+
+>> exit
+Goodbye!
+```
+
+### Supported Operators
+
+| Operator | Description | Example |
+|:---:|---|:---:|
+| `+` | Addition | `5 + 3` |
+| `-` | Subtraction | `10 - 4` |
+| `*` | Multiplication | `6 * 2` |
+| `/` | Division | `15 / 3` |
+| `()` | Parentheses | `(5 + 3) * 2` |
+
+## ⚙️ How It Works
+
+The calculator processes expressions in two stages.
+
+### 1. Lexical Analysis
+
+The lexer scans the input and converts it into tokens.
+
+For example:
+
+```text
+Input: 5 + 3 * 2
+
+NUMBER(5)
+PLUS
+NUMBER(3)
+MULTIPLY
+NUMBER(2)
+END
+```
+
+### 2. Recursive Descent Parsing
+
+The parser uses three functions to understand and evaluate the expression.
+
+| Function | Responsibility |
+|---|---|
+| `parse_expression()` | Handles addition and subtraction |
+| `parse_term()` | Handles multiplication and division |
+| `parse_factor()` | Handles numbers and parenthesized expressions |
+
+The parser follows this grammar:
+
+```text
+expression → term (('+' | '-') term)*
+term       → factor (('*' | '/') factor)*
+factor     → NUMBER | '(' expression ')'
+```
+
+This structure naturally enforces mathematical operator precedence.
+
+## 📁 Project Structure
+
+```text
+calculator/
+│
+├── main.c          # REPL and program entry point
+│
+├── lexer.c         # Tokenization implementation
+├── lexer.h         # Token definitions and lexer declarations
+│
+├── parser.c        # Recursive descent parser
+├── parser.h        # Parser structure and declarations
+│
+└── README.md
+```
+
+## 🧠 Concepts Explored
+
+This project serves as a practical exploration of:
+
+- Lexical Analysis and Tokenization
+- Recursive Descent Parsing
+- Context-Free Grammars
+- Operator Precedence and Associativity
+- Recursion
+- Dynamic Memory Allocation
+- Pointers and Structures
+- Modular Programming in C
+
+## 🛠️ Future Improvements
+
+- [ ] Unary operators (`-5`, `+3`)
+- [ ] Exponentiation and modulo
+- [ ] Mathematical functions (`sqrt`, `sin`, `cos`)
+- [ ] Mathematical constants (`pi`, `e`)
+- [ ] Division-by-zero handling
+- [ ] Improved syntax validation and error recovery
+- [ ] Better error messages without terminating the REPL
 
 ---
+
+<p align="center">
+  <sub>If you have any improvements, feel free to create a PR :D</sub>
+</p>
