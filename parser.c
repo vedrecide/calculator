@@ -59,9 +59,9 @@ double parse_exponents(Parser *p) {
     while (current_token(p).type == POWER) {
         advance(p);
 
-        double right = parse_factor(p);
+        double right = parse_exponents(p);
 
-        left = pow(left, right);
+        return pow(left, right);
     }
 
     return left;
