@@ -73,6 +73,13 @@ double parse_factor(Parser *p) {
         return result;
     }
 
+    if (t.type == PLUS || t.type == MINUS) {
+        Type unary = t.type;
+        advance(p);
+        double value = parse_factor(p);
+        return (unary == PLUS) ? value : -value;
+    }
+
     printf("Unexpected token type: %s\n", get_type_name(t.type));
     exit(1);
 }
