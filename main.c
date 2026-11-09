@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "lexer.h"
@@ -30,6 +31,12 @@ int main(int argc, char *argv[]) {
         };
 
         double result = parse_expression(&p);
+
+        if (current_token(&p).type != END) {
+            printf("Unexpected token type: %s\n", get_type_name(current_token(&p).type));
+            free(tokens);
+            continue;
+        }
 
         // for (int i = 0; i < count; i++) {
         //     if (tokens[i].type == NUMBER)

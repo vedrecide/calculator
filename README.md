@@ -20,7 +20,8 @@
 - **Custom Lexer** — Converts raw input into a sequence of tokens.
 - **Recursive Descent Parser** — Parses and evaluates expressions using a grammar-based approach.
 - **Operator Precedence** — Correctly handles exponentiation, multiplication, division, addition, and subtraction.
-- **Exponentiation** — Supports power operations using the `^` operator.
+- **Exponentiation** — Supports right-associative power operations using the `^` operator.
+- **Mathematical Constants** — Supports commonly used constants such as `pi` (π) and `e` (Euler's number).
 - **Parentheses** — Supports grouped and nested mathematical expressions.
 - **Unary Operators** — Supports unary plus and minus, including consecutive unary operators.
 - **Floating-Point Arithmetic** — Handles integer and decimal numbers.
@@ -97,6 +98,21 @@ Enter mathematical expressions directly into the REPL.
 >> (2 + 3) ^ 2
 25.0000
 
+>> 2 ^ 3 ^ 2
+512.0000
+
+>> pi
+3.1416
+
+>> e
+2.7183
+
+>> 2 * pi
+6.2832
+
+>> pi * 2 ^ 2
+12.5664
+
 >> exit
 Goodbye!
 ```
@@ -111,6 +127,15 @@ Goodbye!
 | `/` | Division | `15 / 3` |
 | `^` | Exponentiation | `2 ^ 3` |
 | `()` | Parentheses | `(5 + 3) * 2` |
+
+### Supported Constants
+
+| Constant | Description | Approximate Value |
+|:---:|---|---:|
+| `pi` | Pi (π) | 3.14159 |
+| `e` | Euler's number | 2.71828 |
+
+Constants can be used directly in mathematical expressions just like ordinary numeric values.
 
 ## ⚙️ How It Works
 
@@ -133,6 +158,21 @@ NUMBER(2)
 END
 ```
 
+Mathematical constants are also recognized by the lexer and converted into numeric tokens.
+
+For example:
+
+```text
+Input: 2 * pi + e
+
+NUMBER(2)
+MULTIPLY
+NUMBER(3.14159...)
+PLUS
+NUMBER(2.71828...)
+END
+```
+
 ### 2. Recursive Descent Parsing
 
 The parser uses four functions to understand and evaluate expressions.
@@ -149,7 +189,7 @@ The parser follows this grammar:
 ```text
 expression → term (('+' | '-') term)*
 term       → exponents (('*' | '/') exponents)*
-exponents  → factor ('^' factor)*
+exponents  → factor ('^' exponents)?
 factor     → NUMBER
            | '(' expression ')'
            | ('+' | '-') factor
@@ -157,7 +197,7 @@ factor     → NUMBER
 
 This grammar establishes operator precedence and supports recursive parsing of nested parentheses and unary operators.
 
-**Note:** Exponentiation is currently evaluated left-to-right.
+Exponentiation is right-associative, meaning an expression such as `2 ^ 3 ^ 2` is interpreted as `2 ^ (3 ^ 2)` rather than `(2 ^ 3) ^ 2`.
 
 ## 📁 Project Structure
 
@@ -191,9 +231,8 @@ This project serves as a practical exploration of:
 
 ## 🛠️ Future Improvements
 
-- [ ] Right-associative exponentiation
 - [ ] Mathematical functions (`sqrt`, `sin`, `cos`)
-- [ ] Mathematical constants (`pi`, `e`)
+- [ ] Additional mathematical constants
 - [ ] Modulo operator
 - [ ] Division-by-zero handling
 - [ ] Improved syntax validation

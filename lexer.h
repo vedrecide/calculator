@@ -1,6 +1,9 @@
 #ifndef LEXER_H
 #define LEXER_H
 
+#define PI 3.14159265358979323846
+#define E  2.71828182845904523536
+
 typedef enum Type {
     NUMBER,
     LPAREN,

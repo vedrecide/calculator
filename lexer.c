@@ -26,6 +26,14 @@ Token* tokenize(char *exp, int *count) {
             i = endptr - exp - 1; // to the last character consumed, then the for loop will increment i to the next character.
         } else if (isspace((unsigned char) exp[i])) {
             continue;
+        } else if ((exp[i] == 'p' && exp[i + 1] == 'i') || (exp[i] == 'P' && exp[i + 1] == 'I')) {
+            tokens[len].type = NUMBER;
+            tokens[len].val = PI;
+
+            i += 1;
+        } else if (exp[i] == 'e' || exp[i] == 'E') {
+            tokens[len].type = NUMBER;
+            tokens[len].val = E;
         } else {
             switch (exp[i]) {
                 case '(':
