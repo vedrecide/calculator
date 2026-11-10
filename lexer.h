@@ -29,4 +29,6 @@ Token *tokenize(char *exp, int *count);
 
 const char *get_type_name(Type type);
 
+void str_tolower(char *str);
+
 #endif

@@ -26,17 +26,7 @@ Token* tokenize(char *exp, int *count) {
             i = endptr - exp - 1; // to the last character consumed, then the for loop will increment i to the next character.
         } else if (isspace((unsigned char) exp[i])) {
             continue;
-        } 
-        // else if ((exp[i] == 'p' && exp[i + 1] == 'i') || (exp[i] == 'P' && exp[i + 1] == 'I')) {
-        //     tokens[len].type = NUMBER;
-        //     tokens[len].val = PI;
-
-        //     i += 1;
-        // } else if (exp[i] == 'e' || exp[i] == 'E') {
-        //     tokens[len].type = NUMBER;
-        //     tokens[len].val = E;
-        // } 
-        else if (isalpha((unsigned char) exp[i])) {
+        } else if (isalpha((unsigned char) exp[i])) {
             char identifier[32]; // sequence of characters representing a name (pi, e, sqrt, sin, cos, etc...)
             int j = 0;
 
@@ -51,21 +41,22 @@ Token* tokenize(char *exp, int *count) {
             }
 
             identifier[j] = '\0';
+            str_tolower(identifier);
             i--;
 
-            if (strcmp(identifier, "pi") == 0 || strcmp(identifier, "PI") == 0) {
+            if (strcmp(identifier, "pi") == 0) {
                 tokens[len].type = NUMBER;
                 tokens[len].val = PI;
-            } else if (strcmp(identifier, "e") == 0 || strcmp(identifier, "E") == 0) {
+            } else if (strcmp(identifier, "e") == 0) {
                 tokens[len].type = NUMBER;
                 tokens[len].val = E;
-            } else if (strcmp(identifier, "sqrt") == 0 || strcmp(identifier, "SQRT") == 0) {
+            } else if (strcmp(identifier, "sqrt") == 0) {
                 tokens[len].type = SQRT;
-            } else if (strcmp(identifier, "sin") == 0 || strcmp(identifier, "SIN") == 0) {
+            } else if (strcmp(identifier, "sin") == 0) {
                 tokens[len].type = SIN;
-            } else if (strcmp(identifier, "cos") == 0 || strcmp(identifier, "COS") == 0) {
+            } else if (strcmp(identifier, "cos") == 0) {
                 tokens[len].type = COS;
-            } else if (strcmp(identifier, "tan") == 0 || strcmp(identifier, "TAN") == 0) {
+            } else if (strcmp(identifier, "tan") == 0) {
                 tokens[len].type = TAN;
             }
         } else {
@@ -122,5 +113,11 @@ const char* get_type_name(Type type) {
         case DIVIDE:   return "DIVIDE";
         case END:      return "END";
         default:       return "UNKNOWN";
+    }
+}
+
+void str_tolower(char *str) {
+    for (int i = 0; str[i] != '\0'; i++) {
+        str[i] = tolower((unsigned char) str[i]);
     }
 }
