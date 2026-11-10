@@ -21,6 +21,7 @@
 - **Recursive Descent Parser** — Parses and evaluates expressions using a grammar-based approach.
 - **Operator Precedence** — Correctly handles exponentiation, multiplication, division, addition, and subtraction.
 - **Exponentiation** — Supports right-associative power operations using the `^` operator.
+- **Mathematical Functions** — Supports `sqrt()`, `sin()`, `cos()`, and `tan()`.
 - **Mathematical Constants** — Supports commonly used constants such as `pi` (π) and `e` (Euler's number).
 - **Parentheses** — Supports grouped and nested mathematical expressions.
 - **Unary Operators** — Supports unary plus and minus, including consecutive unary operators.
@@ -113,6 +114,18 @@ Enter mathematical expressions directly into the REPL.
 >> pi * 2 ^ 2
 12.5664
 
+>> sqrt(25)
+5.0000
+
+>> sin(0)
+0.0000
+
+>> cos(0)
+1.0000
+
+>> tan(0)
+0.0000
+
 >> exit
 Goodbye!
 ```
@@ -127,6 +140,17 @@ Goodbye!
 | `/` | Division | `15 / 3` |
 | `^` | Exponentiation | `2 ^ 3` |
 | `()` | Parentheses | `(5 + 3) * 2` |
+
+### Supported Mathematical Functions
+
+| Function | Description | Example |
+|:---:|---|:---:|
+| `sqrt(x)` | Square root | `sqrt(25)` |
+| `sin(x)` | Sine | `sin(0)` |
+| `cos(x)` | Cosine | `cos(0)` |
+| `tan(x)` | Tangent | `tan(0)` |
+
+**Note:** Trigonometric functions use radians.
 
 ### Supported Constants
 
@@ -173,6 +197,8 @@ NUMBER(2.71828...)
 END
 ```
 
+Mathematical function names are also recognized and processed as function tokens.
+
 ### 2. Recursive Descent Parsing
 
 The parser uses four functions to understand and evaluate expressions.
@@ -182,7 +208,7 @@ The parser uses four functions to understand and evaluate expressions.
 | `parse_expression()` | Handles addition and subtraction |
 | `parse_term()` | Handles multiplication and division |
 | `parse_exponents()` | Handles exponentiation |
-| `parse_factor()` | Handles numbers, parentheses, and unary operators |
+| `parse_factor()` | Handles numbers, parentheses, unary operators, and mathematical functions |
 
 The parser follows this grammar:
 
@@ -193,9 +219,10 @@ exponents  → factor ('^' exponents)?
 factor     → NUMBER
            | '(' expression ')'
            | ('+' | '-') factor
+           | FUNCTION '(' expression ')'
 ```
 
-This grammar establishes operator precedence and supports recursive parsing of nested parentheses and unary operators.
+This grammar establishes operator precedence and supports recursive parsing of nested parentheses, unary operators, and mathematical function arguments.
 
 Exponentiation is right-associative, meaning an expression such as `2 ^ 3 ^ 2` is interpreted as `2 ^ (3 ^ 2)` rather than `(2 ^ 3) ^ 2`.
 
@@ -225,16 +252,17 @@ This project serves as a practical exploration of:
 - Operator Precedence and Associativity
 - Recursion
 - Mathematical Expression Evaluation
+- Mathematical Functions and the C Math Library
 - Dynamic Memory Allocation
 - Pointers and Structures
 - Modular Programming in C
 
 ## 🛠️ Future Improvements
 
-- [ ] Mathematical functions (`sqrt`, `sin`, `cos`)
+- [ ] Additional mathematical functions (`log`, `ln`, `abs`, etc.)
 - [ ] Additional mathematical constants
 - [ ] Modulo operator
-- [ ] Division-by-zero handling
+- [ ] Division-by-zero and domain error handling
 - [ ] Improved syntax validation
 - [ ] Error recovery without terminating the REPL
 - [ ] Memory management and cleanup improvements

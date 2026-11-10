@@ -26,14 +26,48 @@ Token* tokenize(char *exp, int *count) {
             i = endptr - exp - 1; // to the last character consumed, then the for loop will increment i to the next character.
         } else if (isspace((unsigned char) exp[i])) {
             continue;
-        } else if ((exp[i] == 'p' && exp[i + 1] == 'i') || (exp[i] == 'P' && exp[i + 1] == 'I')) {
-            tokens[len].type = NUMBER;
-            tokens[len].val = PI;
+        } 
+        // else if ((exp[i] == 'p' && exp[i + 1] == 'i') || (exp[i] == 'P' && exp[i + 1] == 'I')) {
+        //     tokens[len].type = NUMBER;
+        //     tokens[len].val = PI;
 
-            i += 1;
-        } else if (exp[i] == 'e' || exp[i] == 'E') {
-            tokens[len].type = NUMBER;
-            tokens[len].val = E;
+        //     i += 1;
+        // } else if (exp[i] == 'e' || exp[i] == 'E') {
+        //     tokens[len].type = NUMBER;
+        //     tokens[len].val = E;
+        // } 
+        else if (isalpha((unsigned char) exp[i])) {
+            char identifier[32]; // sequence of characters representing a name (pi, e, sqrt, sin, cos, etc...)
+            int j = 0;
+
+            while (isalpha((unsigned char) exp[i])) {
+                if (j >= 31) {
+                    printf("Identifier too long.\n");
+                    free(tokens);
+                    return NULL;
+                }
+
+                identifier[j++] = exp[i++];
+            }
+
+            identifier[j] = '\0';
+            i--;
+
+            if (strcmp(identifier, "pi") == 0 || strcmp(identifier, "PI") == 0) {
+                tokens[len].type = NUMBER;
+                tokens[len].val = PI;
+            } else if (strcmp(identifier, "e") == 0 || strcmp(identifier, "E") == 0) {
+                tokens[len].type = NUMBER;
+                tokens[len].val = E;
+            } else if (strcmp(identifier, "sqrt") == 0 || strcmp(identifier, "SQRT") == 0) {
+                tokens[len].type = SQRT;
+            } else if (strcmp(identifier, "sin") == 0 || strcmp(identifier, "SIN") == 0) {
+                tokens[len].type = SIN;
+            } else if (strcmp(identifier, "cos") == 0 || strcmp(identifier, "COS") == 0) {
+                tokens[len].type = COS;
+            } else if (strcmp(identifier, "tan") == 0 || strcmp(identifier, "TAN") == 0) {
+                tokens[len].type = TAN;
+            }
         } else {
             switch (exp[i]) {
                 case '(':
@@ -75,6 +109,10 @@ Token* tokenize(char *exp, int *count) {
 const char* get_type_name(Type type) {
     switch (type) {
         case NUMBER:   return "NUMBER";
+        case SQRT:     return "SQRT";
+        case SIN:      return "SIN";
+        case COS:      return "COS";
+        case TAN:      return "TAN";
         case LPAREN:   return "LPAREN";
         case RPAREN:   return "RPAREN";
         case POWER:    return "POWER";

@@ -6,6 +6,10 @@
 
 typedef enum Type {
     NUMBER,
+    SQRT,
+    SIN,
+    COS,
+    TAN,
     LPAREN,
     RPAREN,
     POWER,

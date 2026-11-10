@@ -56,7 +56,7 @@ double parse_term(Parser *p) {
 double parse_exponents(Parser *p) {
     double left = parse_factor(p);
 
-    while (current_token(p).type == POWER) {
+    if (current_token(p).type == POWER) {
         advance(p);
 
         double right = parse_exponents(p);
@@ -93,6 +93,35 @@ double parse_factor(Parser *p) {
         advance(p);
         double value = parse_factor(p);
         return (unary == PLUS) ? value : -value;
+    }
+
+    if (t.type == SQRT || t.type == SIN || t.type == COS || t.type == TAN) {
+        Type function = t.type;
+
+        advance(p);
+
+        if (current_token(p).type != LPAREN) {
+            printf("Expected opening parenthesis, got %s instead.\n", get_type_name(current_token(p).type));
+            exit(1);
+        }
+
+        advance(p);
+
+        double expression = parse_expression(p);
+
+        if (current_token(p).type != RPAREN) {
+            printf("Expected closing parenthesis, got %s instead.\n", get_type_name(current_token(p).type));
+            exit(1);
+        }
+
+        advance(p);
+
+        switch (function) {
+            case SQRT: return sqrt(expression);
+            case SIN:  return sin(expression);
+            case COS:  return cos(expression);
+            case TAN:  return tan(expression);
+        }
     }
 
     printf("Unexpected token type: %s\n", get_type_name(t.type));
