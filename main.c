@@ -46,6 +46,7 @@ int main(int argc, char *argv[]) {
         // }
 
         printf("%.4f\n", result);
+        free(tokens);
     }
 
     return 0;
