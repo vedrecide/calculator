@@ -15,7 +15,7 @@ Parsing functions
 - parse_expression -> Handles +,-
 - parse_term -> Handles *,/
 - parse_exponents -> Handles exponents
-- parse_factor -> Handles numbers, parenthesis, unary operators
+- parse_factor -> Handles numbers, parenthesis, unary operators and functions
 */
 
 double parse_expression(Parser *p);
